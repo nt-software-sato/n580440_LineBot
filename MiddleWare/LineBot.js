@@ -6,6 +6,7 @@ const app = express();
 const router = express.Router();
 const axios = require("axios");
 const { Sequelize } = require('sequelize');
+let Model = require('../Model/LineBotModel')
 
 const config = {
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
@@ -17,43 +18,6 @@ const lineRequest = axios.create({
   headers: { 'Authorization': `Bearer ${config.channelAccessToken}` }
 });
 const client = new line.Client(config);
-
-
-
-
-
-
-
-const n580440_Line = new Sequelize('n580440_Line', 'sa', '2410', {
-  host: 'localhost',
-  dialect: 'mssql',
-  port: 1433,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  },
-});
-
-const UsersLineInfo = n580440_Line.define('UsersLineInfo', {
-  UserId: {
-    type: Sequelize.STRING, 
-    primaryKey: true, 
-  },
-  token: {
-    type: Sequelize.STRING, 
-  },
-  nonce: {
-    type: Sequelize.STRING,
-  },
-  lineUserId: {
-    type: Sequelize.STRING,
-  },
-}, { timestamps: false });
-
-
-
 
 /////////
 router.post('/', line.middleware(config), (req, res) => {
@@ -78,55 +42,24 @@ let GetLinktoken = async (uid) => {
     })
 }
 
-// let UpdateLineUserId =async (lineUserId,linkNonce) =>{
-//   return     
-  
-  
-  
-//   UsersLineInfo.update({ lineUserId: lineUserId }, {
-//     where: {
-//       nonce: linkNonce
-//     }
-//   }).then(()=>{return; })
-  
-  
-//   ;
-
-
-
-// }
-
-
-
 // event handler
 let HandleEvent = async (event) => {
   let replyMsg = {};
   if ((event.type !== 'message' || event.message.type !== 'text') && event.type !== 'accountLink') {
     console.log(event);
     return Promise.resolve(null);
-  } else if (event.type == 'accountLink' ) {
+  } else if (event.type == 'accountLink') {
     // if(event.link.result=='ok'){
-    let lineUserId=event.source.userId;
-    let linkNonce=event.link.nonce;
+    let lineUserId = event.source.userId;
+    let linkNonce = event.link.nonce;
 
-
-    UsersLineInfo.update({ lineUserId: lineUserId }, {
+    Model.UsersLineInfo.update({ lineUserId: lineUserId }, {
       where: {
         nonce: linkNonce
       }
     })
 
-
-
-    // await UpdateLineUserId(lineUserId,linkNonce);
     console.log(event);
-
-
-
-
-
-
-
 
     replyMsg = { type: 'text', text: `588440帳號綁定成功` };
     return client.replyMessage(event.replyToken, replyMsg);
@@ -168,4 +101,3 @@ let HandleEvent = async (event) => {
   }
 }
 module.exports = router;
-

@@ -9,9 +9,9 @@ const schedule = require('node-schedule');
 //LineBotPushService
 const LineBotPush = require('./Service/LineBotPush.js');
 LineBotPush.PushAction();
-schedule.scheduleJob('*/5 * * * *', function(){
+schedule.scheduleJob('*/1 * * * *', function () {
   LineBotPush.PushAction();
- });
+});
 
 
 
