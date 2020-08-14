@@ -8,11 +8,7 @@ const axios = require("axios");
 const { Sequelize } = require('sequelize');
 const Op = Sequelize.Op;
 let Model = require('../Model/LineBotModel');
-const config = {
-  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
-  channelSecret: process.env.CHANNEL_SECRET,
-  hostURL: process.env.hostURL
-};
+const config = process.env;
 const lineRequest = axios.create({
   baseURL: 'https://api.line.me/v2/bot',
   headers: { 'Authorization': `Bearer ${config.channelAccessToken}` }
@@ -28,7 +24,7 @@ let pushMsg = {
 }
 
 module.exports.PushAction = function (msg) {
-  Model.LineBotPushMsgBank.findAll({
+  Model.PushMsgBank.findAll({
     where: {
       Result: { [Op.is]: null }
     }
@@ -46,12 +42,18 @@ module.exports.PushAction = function (msg) {
               let json = [infoData.lineUserId, msgitem.MsgContent];
               console.log(json);
               client.pushMessage(infoData.lineUserId, JSON.parse(msgitem.MsgContent));
-              Model.LineBotPushMsgBank.update({ Result: '1' }, {
+              Model.PushMsgBank.update({ Result: '1' }, {
                 where: {
                   AutoCounter: msgitem.AutoCounter
                 }
               })//LineBotPushMsgBank.update
-            }//if
+            } else {
+              Model.PushMsgBank.update({ Result: '9', ErrMsg: '【ToUserId】 have not linked LINE Account' }, {
+                where: {
+                  AutoCounter: msgitem.AutoCounter
+                }
+              })//LineBotPushMsgBank.update
+            }
           })//UsersLineInfo.then
       })//msgData.map
     })//LineBotPushMsgBank.findAll

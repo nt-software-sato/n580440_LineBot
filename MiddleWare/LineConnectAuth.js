@@ -10,11 +10,8 @@ const nonce = require('nonce')();
 const { Sequelize } = require('sequelize');
 let Model = require('../Model/LineBotModel')
 
-const config = {
-  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
-  channelSecret: process.env.CHANNEL_SECRET,
-  hostURL: process.env.hostURL
-};
+const config = process.env;
+
 const lineRequest = axios.create({
   baseURL: 'https://api.line.me/v2/bot',
   headers: { 'Authorization': `Bearer ${config.channelAccessToken}` }

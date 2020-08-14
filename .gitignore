@@ -1,6 +1,9 @@
 /node_modules
 /.vs
 /.vscode
+
+/SSL/*
+.env
+
 README.md
 
-.env

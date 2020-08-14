@@ -1,7 +1,10 @@
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-const n580440_Line = new Sequelize('n580440_Line', 'sa', '2410', {
-    host: 'localhost',
+const config = process.env;
+
+const n580440_Line = new Sequelize('n580440_Line', config.sqlAccount, config.sqlPassWord, {
+    host: config.sqlHost,
     dialect: 'mssql',
     port: 1433,
     pool: {
@@ -11,8 +14,8 @@ const n580440_Line = new Sequelize('n580440_Line', 'sa', '2410', {
         idle: 10000
     },
 });
-const n580440__CallCenter = new Sequelize('n580440__CallCenter', 'sa', '2410', {
-    host: 'localhost',
+const n580440__CallCenter = new Sequelize('n580440__CallCenter', config.sqlAccount, config.sqlPassWord, {
+    host: config.sqlHost,
     dialect: 'mssql',
     port: 1433,
     pool: {
@@ -25,7 +28,7 @@ const n580440__CallCenter = new Sequelize('n580440__CallCenter', 'sa', '2410', {
 
 
 module.exports = {
-    LineBotPushMsgBank: n580440_Line.define('LineBot_PushMsg_Bank', {
+    PushMsgBank: n580440_Line.define('LineBot_PushMsg_Bank', {
         AutoCounter: {
             type: Sequelize.STRING,
             primaryKey: true,
@@ -38,9 +41,12 @@ module.exports = {
         },
         MsgContent: {
             type: Sequelize.STRING,
+        },
+        ErrMsg: {
+            type: Sequelize.STRING,
         }
     }, { timestamps: false, freezeTableName: true }),
-    UsersLineInfo: n580440_Line.define('UsersLineInfo', {
+    UsersLineInfo: n580440_Line.define('LineBot_UserInfo', {
         UserId: {
             type: Sequelize.STRING,
             primaryKey: true,
