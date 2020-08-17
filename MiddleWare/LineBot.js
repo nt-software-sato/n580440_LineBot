@@ -7,6 +7,7 @@ const router = express.Router();
 const axios = require("axios");
 const { Sequelize } = require('sequelize');
 let Model = require('../Model/LineBotModel')
+const cryptoRandomString = require('crypto-random-string');
 
 const config = process.env;
 
@@ -50,11 +51,11 @@ let HandleEvent = async (event) => {
     let lineUserId = event.source.userId;
     let linkNonce = event.link.nonce;
 
-    Model.UsersLineInfo.update({ lineUserId: lineUserId }, {
-      where: {
-        nonce: linkNonce
-      }
-    })
+    // Model.UsersLineInfo.update({ lineUserId: lineUserId }, {
+    //   where: {
+    //     nonce: linkNonce
+    //   }
+    // })
 
     console.log(event);
 
@@ -69,6 +70,8 @@ let HandleEvent = async (event) => {
     switch (msgText) {
       case '帳號綁定':
         let result = await GetLinktoken(userId);
+        let randomKey = cryptoRandomString({ length: 255, type: 'url-safe' });
+        Model.SecureToken.create({ Token: randomKey, UserLineId: userId });
         replyMsg = {
           "type": "template",
           "altText": "580440帳號綁定",
@@ -79,12 +82,12 @@ let HandleEvent = async (event) => {
             "defaultAction": {
               "type": "uri",
               "label": "View detail",
-              "uri": `${config.hostURL}/LineLogin.html?token=${result}`
+              "uri": `${config.hostURL}/LineLogin.html?token=${randomKey}&token2=${result}`
             },
             "actions": [{
               "type": "uri",
               "label": "開始綁定",
-              "uri": `${config.hostURL}/LineLogin.html?token=${result}`
+              "uri": `${config.hostURL}/LineLogin.html?token=${randomKey}&token2=${result}`
             }]
           }
         };

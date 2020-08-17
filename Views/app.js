@@ -5,13 +5,15 @@ for (let pair of params.entries()) {
 
 }
 let token = params.get('token');
+let token2 = params.get('token2');
 
 const defaultFields = {
 
   account: '',
   password: '',
   remember: false,
-  token: token
+  token: token,
+  ErrMsg: ""
 };
 
 new Vue({
@@ -41,9 +43,10 @@ new Vue({
             ...defaultFields
           }
           if (data.status == "200") {
-            location.href = `https://access.line.me/dialog/bot/accountLink?linkToken=${token}&nonce=${data.nonce}`
+            location.href = `https://access.line.me/dialog/bot/accountLink?linkToken=${token2}&nonce=${token}`
             this.isSuccess = true;
           } else {
+            this.ErrMsg = data.Msg;
             this.isLoading = false;
             this.hasErrors = true;
             this.isSuccess = false;

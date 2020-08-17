@@ -48,7 +48,7 @@ module.exports.PushAction = function (msg) {
                 }
               })//LineBotPushMsgBank.update
             } else {
-              Model.PushMsgBank.update({ Result: '9', ErrMsg: '【ToUserId】 have not linked LINE Account' }, {
+              Model.PushMsgBank.update({ Result: '99', ErrMsg: '【ToUserId】 have not linked LINE Account' }, {
                 where: {
                   AutoCounter: msgitem.AutoCounter
                 }

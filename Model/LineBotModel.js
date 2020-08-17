@@ -61,6 +61,25 @@ module.exports = {
             type: Sequelize.STRING,
         },
     }, { timestamps: false, freezeTableName: true }),
+    SecureToken: n580440_Line.define('LineBot_SecureToken', {
+        AutoCounter: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        Token: {
+            type: Sequelize.STRING,
+        },
+        UserLineId: {
+            type: Sequelize.STRING,
+        },
+        IssueTime: {
+            type: Sequelize.DATE,
+        },
+        Used: {
+            type: Sequelize.INTEGER,
+        },
+    }, { timestamps: false, freezeTableName: true }),
     Users: n580440__CallCenter.define('Users', {
         UserId: {
             type: Sequelize.STRING,
