@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 
 const config = process.env;
 
-const n580440_Line = new Sequelize('n580440_Line', config.sqlAccount, config.sqlPassWord, {
+const n580440_Line = new Sequelize('n580440__CallCenter', config.sqlAccount, config.sqlPassWord, {
     host: config.sqlHost,
     dialect: 'mssql',
     port: 1433,
@@ -90,6 +90,25 @@ module.exports = {
         },
         Status: {
             type: Sequelize.STRING,
+        }
+    }, { timestamps: false, freezeTableName: true }),
+
+
+
+
+    BankOfLineMessages: n580440__CallCenter.define('BankOfLineMessages', {
+        Id: {
+            type: Sequelize.STRING,
+            primaryKey: true,
+        },
+        LineMessage_OpenId: {
+            type: Sequelize.STRING,
+        },
+        LineMessage_Message: {
+            type: Sequelize.STRING,
+        },
+        Status: {
+            type: Sequelize.INTEGER,
         }
     }, { timestamps: false, freezeTableName: true })
 

@@ -1,7 +1,7 @@
 {
-  "name": "echo-bot",
+  "name": "topservice_linebot",
   "version": "0.0.0",
-  "description": "LINE bot",
+  "description": "topservice_linebot",
   "main": "index.js",
   "scripts": {
     "start": "node ."

@@ -71,10 +71,11 @@ app.get('*', function (req, res) {
 app.post('*', function (req, res) {
   res.send('400 Bad Request', 400);
 });
-// const port = process.env.PORT || 3000;
-// app.listen(port, () => {
-//   console.log(`listening on ${port}`);
-// });
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+ console.log(`listening on ${port}`);
+});
 var credentials = { ca: cafile, key: privateKey, cert: certificate };
 var httpsServer = https.createServer(credentials, app)
 httpsServer.listen(3443);

@@ -18,43 +18,43 @@ const client = new line.Client(config);
 //   "type": "text",
 //   "text": "【案件處裡通知】\n\n以下案件請盡快與相關單位聯繫處裡\n\n\n客戶名稱：『客戶名稱』\n單位名稱：『單位名稱』\n報修單號：『報修單號』\n報修品項：『報修品項』\n要求時效：『要求時效』\n\n點擊下列連結查看案件詳情，如有疑問請聯繫580440報修中心，謝謝！\n\n『http://www.example.com』\n"
 // }
-let pushMsg = {
-  "type": "text",
-  "text": "【案件處裡通知】\n\n以下案件請盡快與相關單位聯繫處裡\n\n\n客戶名稱：『客戶名稱』\n單位名稱：『單位名稱』\n報修單號：『報修單號』\n報修品項：『報修品項』\n要求時效：『要求時效』\n\n點擊下列連結查看案件詳情，如有疑問請聯繫580440報修中心，謝謝！\n\n『http://www.example.com』\n"
-}
+// let pushMsg = {
+//   "type": "text",
+//   "text": "【案件處裡通知】\n\n以下案件請盡快與相關單位聯繫處裡\n\n\n客戶名稱：『客戶名稱』\n單位名稱：『單位名稱』\n報修單號：『報修單號』\n報修品項：『報修品項』\n要求時效：『要求時效』\n\n點擊下列連結查看案件詳情，如有疑問請聯繫580440報修中心，謝謝！\n\n『http://www.example.com』\n"
+// }
 
 module.exports.PushAction = function (msg) {
-  Model.PushMsgBank.findAll({
+  Model.BankOfLineMessages.findAll({
     where: {
-      Result: { [Op.is]: null }
+      Status: 1
     }
   })
     .then(msgData => {
 
       msgData.map(msgitem => {
-        Model.UsersLineInfo.findOne({
-          where: {
-            UserId: msgitem.ToUserId
-          }
-        })
-          .then((infoData) => {
-            if (infoData != null) {
-              let json = [infoData.lineUserId, msgitem.MsgContent];
+        // Model.UsersLineInfo.findOne({
+        //   where: {
+        //     UserId: msgitem.ToUserId
+        //   }
+        // })
+        //   .then((infoData) => {
+            if (msgitem != null) {
+              let json = [msgitem.LineMessage_OpenId, msgitem.LineMessage_Message];
               console.log(json);
-              client.pushMessage(infoData.lineUserId, JSON.parse(msgitem.MsgContent));
-              Model.PushMsgBank.update({ Result: '1' }, {
+              client.pushMessage(msgitem.LineMessage_OpenId, JSON.parse(msgitem.LineMessage_Message));
+              Model.BankOfLineMessages.update({ Status: 5 }, {
                 where: {
-                  AutoCounter: msgitem.AutoCounter
+                    Id: msgitem.Id
                 }
               })//LineBotPushMsgBank.update
-            } else {
-              Model.PushMsgBank.update({ Result: '99', ErrMsg: '【ToUserId】 have not linked LINE Account' }, {
-                where: {
-                  AutoCounter: msgitem.AutoCounter
-                }
-              })//LineBotPushMsgBank.update
-            }
-          })//UsersLineInfo.then
+            // } else {
+            //   Model.PushMsgBank.update({ Result: '99', ErrMsg: '【ToUserId】 have not linked LINE Account' }, {
+            //     where: {
+            //       AutoCounter: msgitem.AutoCounter
+            //     }
+            //   })//LineBotPushMsgBank.update
+             }
+          // })//UsersLineInfo.then
       })//msgData.map
     })//LineBotPushMsgBank.findAll
 };
