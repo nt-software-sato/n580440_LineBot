@@ -1,6 +1,13 @@
 'use strict';
 require('dotenv').config();
 const line = require('@line/bot-sdk');
+const {
+  HTTPError,
+  JSONParseError,
+  ReadError,
+  RequestError,
+  SignatureValidationFailed,
+} =require('@line/bot-sdk');
 const express = require('express');
 const app = express();
 const router = express.Router();
@@ -41,7 +48,21 @@ module.exports.PushAction = function (msg) {
             if (msgitem != null) {
               let json = [msgitem.LineMessage_OpenId, msgitem.LineMessage_Message];
               console.log(json);
-              client.pushMessage(msgitem.LineMessage_OpenId, JSON.parse(msgitem.LineMessage_Message));
+              client.pushMessage(msgitem.LineMessage_OpenId, JSON.parse(msgitem.LineMessage_Message)) 
+              .catch((err) => {
+                if (err instanceof HTTPError) {
+                  console.error(err.statusCode);
+                  console.error(err.originalError.response.data.message);
+                  Model.BankOfLineMessages.update({ Status: err.statusCode ,Remark:err.originalError.response.data.message}, {
+                    where: {
+                        Id: msgitem.Id
+                    }
+                  })//LineBotPushMsgBank.update
+
+
+                }
+              });
+            
               Model.BankOfLineMessages.update({ Status: 5 }, {
                 where: {
                     Id: msgitem.Id

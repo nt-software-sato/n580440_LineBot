@@ -109,7 +109,11 @@ module.exports = {
         },
         Status: {
             type: Sequelize.INTEGER,
+        },
+        Remark: {
+            type: Sequelize.STRING,
         }
+
     }, { timestamps: false, freezeTableName: true })
 
 }
