@@ -64,6 +64,9 @@ const LineConnectAuth = require('./MiddleWare/LineConnectAuth');
 app.use('/LineConnectAuth', LineConnectAuth);
 
 
+const LineRedirectByToken = require('./MiddleWare/LineRedirectByToken');
+app.use('/LineRedirectByToken', LineRedirectByToken);
+
 
 app.get('*', function (req, res) {
   res.send('400 Bad Request', 400);

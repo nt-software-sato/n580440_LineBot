@@ -57,11 +57,6 @@ let GetUserInfo = async (uid) => {
 
 
     })
-
-
-
-
-
 }
 
 
