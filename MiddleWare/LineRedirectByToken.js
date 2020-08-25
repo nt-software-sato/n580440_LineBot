@@ -72,7 +72,7 @@ axios({
         // console.log(data)
         var userInfo=JSON.parse(JSON.stringify(data[0]));
         console.log(userInfo.Passport)
-        res.json({p:userInfo.Passport})
+        res.json({p:`https://phm.580440.com.cn/linep01/#/dispatch?t=${userInfo.Passport}`})
   
   
       })

@@ -60,8 +60,8 @@ function initializeLiff(myLiffId) {
                 //alert(accessToken);
                 axios.post(`${location.origin}/LineRedirectByToken`, { t: accessToken })
                     .then((res) => {
-                        location.href = `https://phm.580440.com.cn/linep01/#/dispatch?t=${res.data.p}`
-                        // alert(res.data.p)
+                        location.href = `${res.data.p}`
+                         //alert(res.data.p)
                     })
             }
         })
