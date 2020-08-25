@@ -76,7 +76,7 @@ let HandleEvent = async (event) => {
     let lineUserId = event.source.userId;
     let linkNonce = event.link.nonce;
 
-    lineRequest.post(`user/${lineUserId}/richmenu/richmenu-b56927cc62dc4d972c69fdb706c47390`, {
+    lineRequest.post(`user/${lineUserId}/richmenu/richmenu-06b173d8300355691e44cfb5855e2bb2`, {
     })
       .then((res) => {
         // res.data;
