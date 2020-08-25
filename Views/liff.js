@@ -51,7 +51,7 @@ function initializeLiff(myLiffId) {
         .then(() => {
             // start to use LIFF's api
             initializeApp();
-
+            
 
             if (!liff.isLoggedIn() && !liff.isInClient()) {
                 liff.login();
@@ -62,6 +62,11 @@ function initializeLiff(myLiffId) {
                     .then((res) => {
                         location.href = `${res.data.p}`
                          //alert(res.data.p)
+                    }).catch((err)=>{
+                        //unbind error handle
+                        liff.logout();
+                        liff.login();
+                        
                     })
             }
         })
