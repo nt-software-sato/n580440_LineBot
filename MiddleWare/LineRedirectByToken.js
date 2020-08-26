@@ -64,19 +64,19 @@ router.post('/', function (req, res) {
         .then((_res) => {
             console.log(_res.data.userId);
 
+            res.json({ p: `https://phm.580440.com.cn/linep01/?t=${_res.data.userId}#/dispatch` })
+
+            // accAuthRequest.get(`/signin/${_res.data.userId}`, {})
+            //     .then(res => res.data.o)
+            //     .then(data => {
+            //         // console.warn("////////")
+            //         // console.log(data)
+            //         var userInfo = JSON.parse(JSON.stringify(data[0]));
+            //         console.log(userInfo.Passport)
+            //         res.json({ p: `https://phm.580440.com.cn/linep01/#/dispatch?t=${userInfo.Passport}` })
 
 
-            accAuthRequest.get(`/signin/${_res.data.userId}`, {})
-                .then(res => res.data.o)
-                .then(data => {
-                    // console.warn("////////")
-                    // console.log(data)
-                    var userInfo = JSON.parse(JSON.stringify(data[0]));
-                    console.log(userInfo.Passport)
-                    res.json({ p: `https://phm.580440.com.cn/linep01/#/dispatch?t=${userInfo.Passport}` })
-
-
-                })
+            //     })
         })
 
         .catch(() => {
