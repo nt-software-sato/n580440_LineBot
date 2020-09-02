@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOPServices帳號綁定</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+    <link rel=" stylesheet" href="./style/style.css">
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <article class="card">
+        <div class="card-content">
+          <h1 class="title">TOPServices維修商</h1>
+          <p class="subtitle">輸入您的帳號密碼</p>
+          <form id="login-form" @submit.prevent="submitLogin">
+            <div v-if="hasErrors" id="login-errors" role="alert" aria-live="assertive">
+              <div class="notification is-danger">
+                {{ErrMsg}}
+              </div>
+            </div>
+            <div class="field">
+              <label for="email" class="label">帳號</label>
+              <input type="text" class="input" :class="{ 'is-danger': hasErrors }" :disabled="isLoading" id="email"
+                aria-describedby="login-errors" v-model="fields.account" required>
+            </div>
+            <div class="field">
+              <div class="label space-between">
+                <label for="password" id="password-label">密碼:</label>
+                <button type="button" class="button is-text is-small" aria-describedby="password-label"
+                  @click.prevent="passwordIsText = !passwordIsText">密碼{{ passwordIsText ? '隱藏' : '顯示' }}</button>
+              </div>
+              <input :type="passwordIsText ? 'text' : 'password'" class="input" :class="{ 'is-danger': hasErrors }"
+                :disabled="isLoading" id="password" aria-describedby="login-errors" v-model="fields.password" required>
+            </div>
+            <div class="field">
+              <div class="control">
+
+              </div>
+            </div>
+            <div class="field">
+              <div class="control space-between">
+                <div id="feedback" role="status" aria-live="polite">
+                  <span class="msg-loading" v-if="isLoading">帳號認證中...</span>
+                  <span class="msg-success" v-if="isSuccess">帳號認證成功，請稍後...</span>
+                </div>
+                <button type="submit" class="button is-medium is-link" :disabled="isLoading || isSuccess"
+                  aria-describedby="feedback">帳號綁定</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </article>
+    </div>
+  </section>
+</body>
+
+
+
+<script src="app.js"></script>
+
+</html>

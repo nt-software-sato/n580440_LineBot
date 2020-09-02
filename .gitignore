@@ -1,9 +1,11 @@
 /node_modules
 /.vs
 /.vscode
+/.idea
 
-/SSL/*
 .env
+/SSL/*
+/BK
 
 README.md
 

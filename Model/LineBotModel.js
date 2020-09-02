@@ -1,7 +1,7 @@
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
-
 const config = process.env;
+
+const {Sequelize} = require('sequelize');
 
 const n580440_Line = new Sequelize('n580440__CallCenter', config.sqlAccount, config.sqlPassWord, {
     host: config.sqlHost,
@@ -45,7 +45,7 @@ module.exports = {
         ErrMsg: {
             type: Sequelize.STRING,
         }
-    }, { timestamps: false, freezeTableName: true }),
+    }, {timestamps: false, freezeTableName: true}),
     UsersLineInfo: n580440_Line.define('LineBot_UserInfo', {
         UserId: {
             type: Sequelize.STRING,
@@ -60,7 +60,7 @@ module.exports = {
         lineUserId: {
             type: Sequelize.STRING,
         },
-    }, { timestamps: false, freezeTableName: true }),
+    }, {timestamps: false, freezeTableName: true}),
     SecureToken: n580440_Line.define('LineBot_SecureToken', {
         AutoCounter: {
             type: Sequelize.INTEGER,
@@ -79,7 +79,7 @@ module.exports = {
         Used: {
             type: Sequelize.INTEGER,
         },
-    }, { timestamps: false, freezeTableName: true }),
+    }, {timestamps: false, freezeTableName: true}),
     Users: n580440__CallCenter.define('Users', {
         UserId: {
             type: Sequelize.STRING,
@@ -91,9 +91,7 @@ module.exports = {
         Status: {
             type: Sequelize.STRING,
         }
-    }, { timestamps: false, freezeTableName: true }),
-
-
+    }, {timestamps: false, freezeTableName: true}),
 
 
     BankOfLineMessages: n580440__CallCenter.define('BankOfLineMessages', {
@@ -114,6 +112,6 @@ module.exports = {
             type: Sequelize.STRING,
         }
 
-    }, { timestamps: false, freezeTableName: true })
+    }, {timestamps: false, freezeTableName: true})
 
 }
