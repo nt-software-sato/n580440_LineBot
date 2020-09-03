@@ -1,29 +1,27 @@
 'use strict';
-require('dotenv').config();
-const config = process.env;
+// require('dotenv').config();
+// const config = process.env;
 const line = require('@line/bot-sdk');
-const client = new line.Client(config);
+const client = new line.Client(g_config.VenderBot);
 
 const express = require('express');
-// const app = express();
 const router = express.Router();
 
 const axios = require("axios");
-// const { Sequelize } = require('sequelize');
 const cryptoRandomString = require('crypto-random-string');
 const Model = require(`${g_svrRoot}/Model/LineBotModel`);
 
 const lineRequest = axios.create({
   baseURL: 'https://api.line.me/v2/bot',
-  headers: { 'Authorization': `Bearer ${config.channelAccessToken}` }
+  headers: { 'Authorization': `Bearer ${g_config.VenderBot.channelAccessToken}` }
 });
 const accAuthRequest = axios.create({
   baseURL: 'http://phm.580440.com.cn/52279/line',
-  // headers: { 'Authorization': `Bearer ${config.channelAccessToken}` }
+
 });
 
 /////////
-router.post('/', line.middleware(config), (req, res) => {
+router.post('/', line.middleware(g_config.VenderBot), (req, res) => {
   Promise
     .all(req.body.events.map(HandleEvent))
     .then((result) => res.json(result))
@@ -44,7 +42,7 @@ const GetLinktoken = async (uid) => {
       let lineLinkToken = data.linkToken;
       return lineLinkToken;
     })
-    .catch((err) => { console.log(err); })
+    .catch((err) => { console.log(err); console.error(g_config.VenderBot.channelAccessToke); })
 }
 
 const GetUserInfo = async (uid) => {
@@ -67,7 +65,7 @@ const HandleEvent = async (event) => {
     let lineUserId = event.source.userId;
     let linkNonce = event.link.nonce;
 
-    lineRequest.post(`user/${lineUserId}/richmenu/richmenu-3fc45dd29e4dc7444ce1f1e40b51022b`, {
+    lineRequest.post(`user/${lineUserId}/richmenu/${g_config.VenderBot.RichMenu_AfterLogin}`, {
     })
       .then((res) => {
       })
@@ -135,8 +133,8 @@ const HandleEvent = async (event) => {
         let randomKey = cryptoRandomString({ length: 255, type: 'url-safe' });
         Model.SecureToken.create({ Token: randomKey, UserLineId: userId });
 
-        replyMsg = { "type": "flex", "altText": "Flex Message", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "開始綁定 LINE 帳號", "size": "sm", "weight": "bold", "color": "#000000" }] }, "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "lg" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "button", "action": { "type": "uri", "label": "開始綁定", "uri": `${config.hostURL}/Static/Vender/LineLogin.html?token=${randomKey}&token2=${result}` }, "color": "#19BF00", "style": "primary" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "xl" }, { "type": "text", "text": "綁定連結5分鐘有效", "size": "xs", "align": "center", "color": "#AFAFAF" }] }] }] } } };
-        console.log(`${config.hostURL}/Static/Vender/LineLogin.html?token=${randomKey}&token2=${result}`);
+        replyMsg = { "type": "flex", "altText": "Flex Message", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "開始綁定 LINE 帳號", "size": "sm", "weight": "bold", "color": "#000000" }] }, "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "lg" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "button", "action": { "type": "uri", "label": "開始綁定", "uri": `${g_config.hostURL}/Static/Vender/LineLogin.html?token=${randomKey}&token2=${result}` }, "color": "#19BF00", "style": "primary" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "xl" }, { "type": "text", "text": "綁定連結5分鐘有效", "size": "xs", "align": "center", "color": "#AFAFAF" }] }] }] } } };
+        console.log(`${g_config.hostURL}/Static/Vender/LineLogin.html?token=${randomKey}&token2=${result}`);
         break;//帳號綁定
       default:
         replyMsg = { type: 'text', text: `機器人不知道"${event.message.text}" 這是甚麼意思?` };

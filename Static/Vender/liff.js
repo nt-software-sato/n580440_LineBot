@@ -59,7 +59,7 @@ function initializeLiff(myLiffId) {
             } else {
                 const accessToken = liff.getAccessToken();
                 //alert(accessToken);
-                axios.post(`${location.origin}/LineRedirectByToken`, {t: accessToken})
+                axios.post(`${location.origin}/Vender/LineRedirectByToken`, {t: accessToken})
                     .then((res) => {
                         location.href = `${res.data.p}${sessionStorage.getItem('hash')}`
                         //alert(res.data.p)

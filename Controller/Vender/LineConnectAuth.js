@@ -1,42 +1,14 @@
 'use strict';
-require('dotenv').config();
-const config = process.env;
-// const line = require('@line/bot-sdk');
-// const express = require('express');
-// const app = express();
-// const router = express.Router();
+// require('dotenv').config();
+// const config = process.env;
 const axios = require("axios");
 const md5 = require("md5");
-// const moment = require('moment');
-
 
 const Model = require(`${g_svrRoot}/Model/LineBotModel`)
 
-const lineRequest = axios.create({
-    baseURL: 'https://api.line.me/v2/bot',
-    headers: {'Authorization': `Bearer ${config.channelAccessToken}`}
-});
-
 const accAuthRequest = axios.create({
     baseURL: 'http://phm.580440.com.cn/52279/line',
-    // headers: { 'Authorization': `Bearer ${config.channelAccessToken}` }
 });
-
-// const client = new line.Client(config);
-///////////////////////////////////////////////////////
-
-
-const GetLinktoken = async (uid) => {
-    return lineRequest.post(`user/${uid}/linkToken`, {})
-        .then((res) => {
-            return res.data;
-        })
-        .then((data) => {
-            let lineLinkToken = data.linkToken;
-            return lineLinkToken;
-        })
-}
-
 
 module.exports = {
     checkAccount: function (req, res) {
@@ -79,12 +51,12 @@ module.exports = {
                             let data = err.response.data;
                             let r_status = data.StatusCode || data.Code;
                             let r_messages = data.Messages;
-                            console.error("/ERROR/////////////")
-                            console.error(err.response.data);
+                            // console.error("/ERROR/////////////")
+                            // console.error(err.response.data);
                             res.json({status: "400", Msg: `[ERROR#${r_status}]${r_messages}`});
-                            console.error("/ERROR/////////////")
+                            // console.error("/ERROR/////////////")
                         })
-                    console.log(dateDiff);
+                    // console.log(dateDiff);
                 } else {
                     res.json({status: "400", Msg: "[ERROR]綁定連結已過期"});
                 }

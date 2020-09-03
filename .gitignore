@@ -4,6 +4,7 @@
 /.idea
 
 .env
+config.json
 /SSL/*
 /BK
 

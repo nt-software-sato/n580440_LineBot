@@ -1,16 +1,19 @@
 {
   "name": "topservice_linebot",
-  "version": "0.0.0",
+  "version": "0.3.0",
   "description": "topservice_linebot",
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "proxy": "ngrok.exe http --region=jp 3000"
+    "proxy": "ngrok.exe http --region=jp 3000",
+    "pm2": "pm2 start ecosystem.config.js",
+    "pm2stop": "pm2 stop all"
   },
   "dependencies": {
     "@line/bot-sdk": "^7.0.0",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
     "crypto-random-string": "^3.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
