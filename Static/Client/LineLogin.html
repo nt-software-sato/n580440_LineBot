@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOPServices帳號綁定</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js" integrity="sha512-Hmp6qDy9imQmd15Ds1WQJ3uoyGCUz5myyr5ijainC1z+tP7wuXcze5ZZR3dF7+rkRALfNy7jcfgS5hH8wJ/2dQ==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+          crossorigin="anonymous"/>
+    <link rel=" stylesheet" href="./style/style.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <article class="card">
+            <div class="card-content">
+                <img src="./TOPServices_logo.svg" alt="">
+                <h3 class="subtitle" style="text-align: center">客戶端</h3>
+                <p class="subtitle"></p>
+                <form id="login-form" @submit.prevent="submitLogin">
+                    <div class="tabs is-centered is-boxed is-medium">
+                        <ul>
+                            <li :class="fields.isAdmin? '' : 'is-active'">
+                                <a v-on:click="fields.isAdmin = false">
+                                    <span class="icon is-small"><i class="fas fa-user"></i></span>
+                                    <span>普通帳號</span>
+                                </a>
+                            </li>
+                            <li :class="fields.isAdmin? 'is-active' : ''">
+                                <a v-on:click="fields.isAdmin = true">
+                                    <span class="icon is-small"><i class="fas fa-user-cog"></i></span>
+                                    <span>管理員</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-if="hasErrors" id="login-errors" role="alert" aria-live="assertive">
+                        <div class="notification is-danger">
+                            {{ErrMsg}}
+                        </div>
+                    </div>
+                    <div v-if="fields.isAdmin">
+                        <div class="field">
+                            <label for="Id" class="label">帳號:</label>
+                            <input type="text" class="input" :class="{ 'is-danger': hasErrors }" :disabled="isLoading"
+                                   id="Id"
+                                   aria-describedby="login-errors" v-model="fields.Admin.Id" required>
+                        </div>
+                        <div class="field">
+                            <div class="label space-between">
+                                <label for="Password" id="password-label">密碼:</label>
+                                <button type="button" class="button is-text is-small" aria-describedby="password-label"
+                                        @click.prevent="passwordIsText = !passwordIsText">
+                                    密碼{{ passwordIsText ? '隱藏' : '顯示'
+                                    }}
+                                </button>
+                            </div>
+                            <input :type="passwordIsText ? 'text' : 'password'" class="input"
+                                   :class="{ 'is-danger': hasErrors }"
+                                   :disabled="isLoading" id="Password" aria-describedby="login-errors"
+                                   v-model="fields.Admin._Password" required>
+                        </div>
+                    </div>
+                    <div v-if="!fields.isAdmin">
+                        <div class="field">
+                            <label for="UnitId" class="label">單位代號:</label>
+                            <input type="text" class="input" :class="{ 'is-danger': hasErrors }" :disabled="isLoading"
+                                   id="UnitId"
+                                   aria-describedby="login-errors" v-model="fields.User.UnitId" required>
+                        </div>
+                        <div class="field">
+                            <label for="passCode" class="label">單位驗證碼:</label>
+                            <input type="text" class="input" :class="{ 'is-danger': hasErrors }" :disabled="isLoading"
+                                   id="passCode"
+                                   aria-describedby="login-errors" v-model="fields.User.passCode" required>
+                        </div>
+                        <div class="field">
+                            <label for="UserName" class="label">姓名:</label>
+                            <input type="text" class="input" :class="{ 'is-danger': hasErrors }" :disabled="isLoading"
+                                   id="UserName"
+                                   aria-describedby="login-errors" v-model="fields.User.UserName" required>
+                        </div>
+                        <div class="field">
+                            <label for="UserId" class="label">工號:</label>
+                            <input type="text" class="input" :class="{ 'is-danger': hasErrors }" :disabled="isLoading"
+                                   id="UserId"
+                                   aria-describedby="login-errors" v-model="fields.User.UserId" required>
+                        </div>
+                        <div class="field">
+                            <label for="phone" class="label">電話:</label>
+                            <input type="text" class="input" :class="{ 'is-danger': hasErrors }" :disabled="isLoading"
+                                   id="phone"
+                                   aria-describedby="login-errors" v-model="fields.User.Contacts[0].Info" required>
+                        </div>
+                        <div class="field" >
+                            <span class="label">是否為單位管理人員&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                            <input type="radio" v-model="fields.User.isUnitManager" value="1" id="isUnitManager_1" /><label for="isUnitManager_1">是</label>
+                             <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                            <input type="radio" v-model="fields.User.isUnitManager" value="0" id="isUnitManager_0" /><label for="isUnitManager_0">否</label>
+
+
+
+
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control space-between">
+                            <div id="feedback" role="status" aria-live="polite">
+                                <span class="msg-loading" v-if="isLoading">帳號認證中...</span>
+                                <span class="msg-success" v-if="isSuccess">帳號認證成功，請稍後...</span>
+                            </div>
+                            <button type="submit" class="button is-medium is-link" :disabled="isLoading || isSuccess"
+                                    aria-describedby="feedback">帳號綁定
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </div>
+</section>
+</body>
+<script src="app.js"></script>
+</html>

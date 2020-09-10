@@ -2,7 +2,7 @@
 // require('dotenv').config();
 // const config = process.env;
 const line = require('@line/bot-sdk');
-const client = new line.Client(g_config.VenderBot);
+const client = new line.Client(g_config.ClientBot);
 
 const express = require('express');
 const router = express.Router();
@@ -16,7 +16,8 @@ const lineRequest = axios.create({
   headers: { 'Authorization': `Bearer ${g_config.ClientBot.channelAccessToken}` }
 });
 const accAuthRequest = axios.create({
-  baseURL: 'http://phm.580440.com.cn/52279/line',
+  baseURL: 'http://phm.580440.com.cn/52279/line/s/',
+
 });
 
 /////////
@@ -26,7 +27,7 @@ router.post('/', line.middleware(g_config.ClientBot), (req, res) => {
       .then((result) => res.json(result))
       .catch((err) => {
         console.error(err);
-        res.status(500).end();
+        res.status(400).end();
       });
 });
 
@@ -41,7 +42,7 @@ const GetLinktoken = async (uid) => {
         let lineLinkToken = data.linkToken;
         return lineLinkToken;
       })
-      .catch((err) => { console.log(err); })
+      .catch((err) => { console.log(err); console.error(g_config.VenderBot.channelAccessToke); })
 }
 
 const GetUserInfo = async (uid) => {
@@ -64,7 +65,7 @@ const HandleEvent = async (event) => {
     let lineUserId = event.source.userId;
     let linkNonce = event.link.nonce;
 
-    lineRequest.post(`user/${lineUserId}/richmenu/richmenu-3fc45dd29e4dc7444ce1f1e40b51022b`, {
+    lineRequest.post(`user/${lineUserId}/richmenu/${g_config.ClientBot.RichMenu_AfterLogin}`, {
     })
         .then((res) => {
         })
@@ -84,11 +85,11 @@ const HandleEvent = async (event) => {
     switch (postData) {
 
       case "action=accountSetting":
-        replyMsg = { "type": "flex", "altText": "Flex Message", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "帳號設定", "size": "sm", "weight": "bold", "color": "#000000" }] }, "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "box", "layout": "horizontal", "contents": [{ "type": "button", "action": { "type": "postback", "label": "查詢帳號資訊", "data": "action=queryAccountInfo" } }] }, { "type": "box", "layout": "horizontal", "contents": [{ "type": "button", "action": { "type": "postback", "label": "解除綁定LINE帳號", "data": "action=unbind" } }] }] }] } } };
+        replyMsg = { "type": "flex", "altText": "帳號設定", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "帳號設定", "size": "sm", "weight": "bold", "color": "#000000" }] }, "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "box", "layout": "horizontal", "contents": [{ "type": "button", "action": { "type": "postback", "label": "查詢帳號資訊", "data": "action=queryAccountInfo" } }] }, { "type": "box", "layout": "horizontal", "contents": [{ "type": "button", "action": { "type": "postback", "label": "解除綁定LINE帳號", "data": "action=unbind" } }] }] }] } } };
         break;
 
       case "action=unbind":
-        replyMsg = { "type": "flex", "altText": "Flex Message", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "確定刪除LINE帳號綁定?", "size": "lg", "weight": "bold", "color": "#000000" }] }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "text", "text": "您將無法繼續接收LINE通知", "size": "sm", "color": "#FF7B7B" }] }] }, "footer": { "type": "box", "layout": "horizontal", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "button", "action": { "type": "postback", "label": "刪除綁定", "data": "action=unbind&confirm=true" }, "color": "#FF0000", "margin": "xxl", "style": "primary" }, { "type": "button", "action": { "type": "postback", "label": "再想想", "data": "action=unbind&confirm=false" }, "margin": "xxl", "style": "primary" }] }] } } };
+        replyMsg = { "type": "flex", "altText": "確定刪除綁定？", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "確定刪除LINE帳號綁定?", "size": "lg", "weight": "bold", "color": "#000000" }] }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "text", "text": "您將無法繼續接收LINE通知", "size": "sm", "color": "#FF7B7B" }] }] }, "footer": { "type": "box", "layout": "horizontal", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "button", "action": { "type": "postback", "label": "刪除綁定", "data": "action=unbind&confirm=true" }, "color": "#FF0000", "margin": "xxl", "style": "primary" }, { "type": "button", "action": { "type": "postback", "label": "再想想", "data": "action=unbind&confirm=false" }, "margin": "xxl", "style": "primary" }] }] } } };
         break;
 
       case "action=unbind&confirm=true":
@@ -114,7 +115,7 @@ const HandleEvent = async (event) => {
       case "action=queryAccountInfo":
         //.catch((err) => { console.log(err); })
         let userInfo = await GetUserInfo(lineUserId);
-        replyMsg = { "type": "flex", "altText": "Flex Message", "contents": { "type": "bubble", "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "vertical", "spacing": "md", "contents": [{ "type": "text", "text": "綁定帳號資訊", "size": "xl", "gravity": "center", "weight": "bold" }, { "type": "box", "layout": "vertical", "spacing": "sm", "margin": "lg", "contents": [{ "type": "box", "layout": "baseline", "spacing": "sm", "contents": [{ "type": "text", "text": "登入帳號", "flex": 0, "size": "sm", "color": "#000000" }, { "type": "text", "text": `${userInfo.Id}`, "flex": 4, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3", "wrap": true }] }, { "type": "box", "layout": "baseline", "spacing": "sm", "contents": [{ "type": "text", "text": "登入名稱", "flex": 0, "size": "sm", "color": "#000000" }, { "type": "text", "text": `${userInfo.Name}`, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3", "wrap": true }] }, { "type": "separator" }, { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "公司名稱", "flex": 0, "size": "sm", "color": "#000000" }, { "type": "text", "text": `${userInfo.CompanyName}`, "flex": 4, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3", "wrap": true }] }, { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "單位名稱", "flex": 0, "size": "sm" }, { "type": "text", "text": `${userInfo.Unit}`, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3" }] }] }] }, "footer": { "type": "box", "layout": "horizontal", "flex": 1, "contents": [{ "type": "spacer" }, { "type": "spacer" }] } } };
+        replyMsg = { "type": "flex", "altText": "綁定帳號資訊", "contents": { "type": "bubble", "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "vertical", "spacing": "md", "contents": [{ "type": "text", "text": "綁定帳號資訊", "size": "xl", "gravity": "center", "weight": "bold" }, { "type": "box", "layout": "vertical", "spacing": "sm", "margin": "lg", "contents": [{ "type": "box", "layout": "baseline", "spacing": "sm", "contents": [{ "type": "text", "text": "登入帳號", "flex": 0, "size": "sm", "color": "#000000" }, { "type": "text", "text": `${userInfo.Id}`, "flex": 4, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3", "wrap": true }] }, { "type": "box", "layout": "baseline", "spacing": "sm", "contents": [{ "type": "text", "text": "登入名稱", "flex": 0, "size": "sm", "color": "#000000" }, { "type": "text", "text": `${userInfo.Name}`, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3", "wrap": true }] }, { "type": "separator" }, { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "公司名稱", "flex": 0, "size": "sm", "color": "#000000" }, { "type": "text", "text": `${userInfo.CompanyName}`, "flex": 4, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3", "wrap": true }] }, { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "單位名稱", "flex": 0, "size": "sm" }, { "type": "text", "text": `${userInfo.Unit}`, "size": "sm", "align": "end", "weight": "bold", "color": "#118AA3" }] }] }] }, "footer": { "type": "box", "layout": "horizontal", "flex": 1, "contents": [{ "type": "spacer" }, { "type": "spacer" }] } } };
         break;
 
     }
@@ -132,8 +133,8 @@ const HandleEvent = async (event) => {
         let randomKey = cryptoRandomString({ length: 255, type: 'url-safe' });
         Model.SecureToken.create({ Token: randomKey, UserLineId: userId });
 
-        replyMsg = { "type": "flex", "altText": "Flex Message", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "開始綁定 LINE 帳號", "size": "sm", "weight": "bold", "color": "#000000" }] }, "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "lg" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "button", "action": { "type": "uri", "label": "開始綁定", "uri": `${config.hostURL}/Static/Vender/LineLogin.html?token=${randomKey}&token2=${result}` }, "color": "#19BF00", "style": "primary" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "xl" }, { "type": "text", "text": "綁定連結5分鐘有效", "size": "xs", "align": "center", "color": "#AFAFAF" }] }] }] } } };
-        console.log(`${config.hostURL}/Static/Vender/LineLogin.html?token=${randomKey}&token2=${result}`);
+        replyMsg = { "type": "flex", "altText": "綁定LINE通知", "contents": { "type": "bubble", "header": { "type": "box", "layout": "horizontal", "contents": [{ "type": "text", "text": "開始綁定 LINE 帳號", "size": "sm", "weight": "bold", "color": "#000000" }] }, "hero": { "type": "image", "url": "https://nwzimg.wezhan.cn/contents/sitefiles2040/10200972/images/16781871.png", "size": "full", "aspectMode": "cover", "action": { "type": "uri", "label": "Action", "uri": "https://linecorp.com/" } }, "body": { "type": "box", "layout": "horizontal", "spacing": "md", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "lg" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "button", "action": { "type": "uri", "label": "開始綁定", "uri": `${g_config.hostURL}/Static/Client/LineLogin.html?token=${randomKey}&token2=${result}` }, "color": "#19BF00", "style": "primary" }] }, { "type": "box", "layout": "vertical", "contents": [{ "type": "spacer", "size": "xl" }, { "type": "text", "text": "綁定連結5分鐘有效", "size": "xs", "align": "center", "color": "#AFAFAF" }] }] }] } } };
+        console.log(`${g_config.hostURL}/Static/Vender/LineLogin.html?token=${randomKey}&token2=${result}`);
         break;//帳號綁定
       default:
         replyMsg = { type: 'text', text: `機器人不知道"${event.message.text}" 這是甚麼意思?` };

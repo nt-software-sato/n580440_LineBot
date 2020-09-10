@@ -20,6 +20,7 @@ const LineBotPush = require(`${g_svrRoot}/Service/LineBotPush.js`);
 const VenderBot = require(`${g_svrRoot}/LineWebhook/VenderBot.js`);
 const ClientBot = require(`${g_svrRoot}/LineWebhook/ClientBot.js`);
 const VenderHomeRouter = require(`${g_svrRoot}/Router/VenderHomeRouter.js`);
+const ClientHomeRouter = require(`${g_svrRoot}/Router/ClientHomeRouter.js`);
 const SecurityFilter = require(`${g_svrRoot}/Router/SecurityFilter.js`);
 
 app.use(helmet.contentSecurityPolicy({
@@ -55,6 +56,8 @@ app.use(bodyParser.json());
 
 //router/////////////////////////////////////////
 app.use('/Vender', VenderHomeRouter);
+app.use('/Client', ClientHomeRouter);
+
 app.use('*', SecurityFilter);
 
 //init HTTPS///////////////////////////////////////////
