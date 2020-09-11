@@ -7,7 +7,7 @@ const md5 = require("md5");
 const Model = require(`${g_svrRoot}/Model/LineBotModel`)
 
 const accAuthRequest = axios.create({
-    baseURL: 'http://phm.580440.com.cn/52279/line/s',
+    baseURL: 'http://phm.580440.com.cn/52279/line/p',
 });
 
 module.exports = {

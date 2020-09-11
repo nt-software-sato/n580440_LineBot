@@ -16,7 +16,7 @@ const lineRequest = axios.create({
   headers: { 'Authorization': `Bearer ${g_config.VenderBot.channelAccessToken}` }
 });
 const accAuthRequest = axios.create({
-  baseURL: 'http://phm.580440.com.cn/52279/line/s/',
+  baseURL: 'http://phm.580440.com.cn/52279/line/p/',
 
 });
 
