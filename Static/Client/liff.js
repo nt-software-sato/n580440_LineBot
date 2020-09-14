@@ -62,10 +62,10 @@ function initializeLiff(myLiffId) {
                 axios.post(`${location.origin}/Client/LineRedirectByToken`, {t: accessToken})
                     .then((res) => {
                         console.log(sessionStorage.getItem('hash').slice(1))
-                        console.log(`${res.data.p}&${sessionStorage.getItem('hash').slice(1)}`)
+                        console.log(`${res.data.p}?${sessionStorage.getItem('hash').slice(1)}&t=${res.data.t}`)
                         debugger
 
-                        location.href = `${res.data.p}&${sessionStorage.getItem('hash').slice(1)}`
+                        location.href = `${res.data.p}?${sessionStorage.getItem('hash').slice(1)}&t=${res.data.t}`
                         //alert(res.data.p)
                     }).catch((err) => {
                     //unbind error handle

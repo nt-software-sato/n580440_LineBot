@@ -6,7 +6,7 @@ const n580440_Line = new Sequelize('n580440__CallCenter', g_config.dataBase.sqlA
     port: 1433,
     pool: {
         max: 100,
-        min: 0,
+        min: 5,
         acquire: 30000,
         idle: 10000
     },
@@ -18,7 +18,7 @@ const n580440__CallCenter = new Sequelize('n580440__CallCenter', g_config.dataBa
     port: 1433,
     pool: {
         max: 100,
-        min: 0,
+        min: 5,
         acquire: 30000,
         idle: 10000
     },

@@ -42,7 +42,7 @@ app.use(helmet.referrerPolicy());
 //LineBotPushService//////////////////////////////////
 //LineBotPush.PushAction();
 app.use(compression({"level": 9}));
-schedule.scheduleJob('*/10 * * * * *', () => LineBotPush.PushAction());
+//schedule.scheduleJob('*/10 * * * * *', () => LineBotPush.PushAction());
 
 app.use('/static', express.static(`Static`));
 

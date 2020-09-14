@@ -49,7 +49,10 @@ module.exports = {
         })
             .then((_res) => {
                 console.log(_res.data.userId);
-                res.json({p: `http://phm.580440.com.cn/lines01/authorize.html?t=${_res.data.userId}`})
+                res.json({
+                    p: `https://phm.580440.com.cn/lines01/authorize.html`,
+                    t: `${_res.data.userId}`
+                })
             })
             .catch(() => {
                 console.log("err 400")

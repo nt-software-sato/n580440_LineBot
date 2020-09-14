@@ -1,27 +1,32 @@
 https://phm.580440.com.cn/lines01/authorize.html?redirect_uri=apply_repair.html&t=U83f5213142f704330b9d36e7aee3df35
-
 https://phm.580440.com.cn/lines01/authorize.html?redirect_uri=sign_in.html&t=U83f5213142f704330b9d36e7aee3df35
-
 https://phm.580440.com.cn/lines01/authorize.html?redirect_uri=acceptance.html&t=U83f5213142f704330b9d36e7aee3df35
-
 https://phm.580440.com.cn/lines01/authorize.html?redirect_uri=cancel.html&t=U83f5213142f704330b9d36e7aee3df35
 
-
-
 https://phm.580440.com.cn/lines01/authorize.html?redirect_uri=search_muti.html&t=U83f5213142f704330b9d36e7aee3df35
-
 https://phm.580440.com.cn/lines01/authorize.html?redirect_uri=Delay_list.html&t=U83f5213142f704330b9d36e7aee3df35
 
-
-
 https://phm.580440.com.cn/lines01/authorize.html?redirect_uri=change_Password.html&t=U83f5213142f704330b9d36e7aee3df35
+
+https://liff.line.me/1654905596-JQKBWjNM#redirect_uri=apply_repair.html
+https://liff.line.me/1654905596-JQKBWjNM#redirect_uri=sign_in.html
+https://liff.line.me/1654905596-JQKBWjNM#redirect_uri=acceptance.html
+https://liff.line.me/1654905596-JQKBWjNM#redirect_uri=cancel.html
+https://liff.line.me/1654905596-JQKBWjNM#redirect_uri=search_muti.html
+https://liff.line.me/1654905596-JQKBWjNM#redirect_uri=Delay_list.html
+https://liff.line.me/1654905596-JQKBWjNM#redirect_uri=change_Password.html
+
 
 
 
 
 http://phm.580440.com.cn/linep01/?t=U325621fdca8edf17c217511e06766493#/dispatch
 
-
 http://phm.580440.com.cn/linep01/?t=U325621fdca8edf17c217511e06766493#/inspection
 http://phm.580440.com.cn/linep01/?t=U325621fdca8edf17c217511e06766493#/demopage
+
+
+
+
+
 
