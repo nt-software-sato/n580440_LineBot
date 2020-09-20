@@ -44,7 +44,8 @@ function initializeLiffOrDie(myLiffId) {
  * @param {string} myLiffId The LIFF ID of the selected element
  */
 function initializeLiff(myLiffId) {
-    sessionStorage.setItem('hash', location.hash);
+
+    if(/^#/.test(location.hash))  sessionStorage.setItem('hash', location.hash);
 
     liff.init({
         liffId: myLiffId
