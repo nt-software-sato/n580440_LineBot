@@ -1,12 +1,17 @@
+#bundle
 /node_modules
+#IDE temp
 /.vs
 /.vscode
 /.idea
-
+#private cert
 .env
 config.json
 /SSL/*
+#temp
 /BK
-
+#ignore lock file
+package-lock.json
+yarn.lock
 README.md
 
